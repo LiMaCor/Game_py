@@ -12,6 +12,6 @@
 		gráfica para que el usuario desarrolle su propio juego.
 
 
-###Progreso
+###Progreso:
 
 _En desarrollo_
