@@ -1,20 +1,22 @@
-# Clase que crea objetos Actor() con los parametros y metodos necesarios
+## Clase que crea objetos Actor() con los parametros y metodos necesarios
 
 class Actor():
 
-	# Variables
+	## Variables
 
 	nombre = ""
 	nivel = 1
 	objetos = []
 	puntosVida = 0
 	puntosMana = 0
+	puntosEXP = 0
+	expParaSubirNivel = 100
 	estadoATK = 0
 	estadoDEF = 0
 	estadoEVA = 0
 
 
-	# Metodos get y set
+	## Metodos get y set
 
 	def set_Nombre(self, nombre):
 		self.nombre = nombre
@@ -46,6 +48,18 @@ class Actor():
 	def get_PuntosMana(self):
 		return self.puntosMana
 
+	def set_PuntosEXP(self, puntosEXP):
+		self.puntosEXP = puntosEXP
+
+	def get_PuntosEXP(self):
+		return self.puntosEXP
+
+	def set_ExpParaSubirNivel(self):
+		self.expParaSubirNivel = (self.get_Nivel() * 100) + (self.get_PuntosVida() % self.get_Nivel())
+
+	def get_ExpParaSubirNivel(self):
+		return self.expParaSubirNivel
+
 	def set_EstadoATK(self, estadoATK):
 		self.estadoATK = estadoATK
 
@@ -64,24 +78,36 @@ class Actor():
 	def get_EstadoEVA(self):
 		return self.estadoEVA
 
-	# Metodos funcionales
 
-# Este metodo se anyadira a otra clase posterior llamada "Habilidades"
+	## Metodos funcionales
+
+	def anyadir_objetos(self, objeto = []):
+		self.objetos = self.objetos + objeto
+
+	def subir_Nivel(self):
+		if (self.puntosEXP >= self.expParaSubirNivel):
+			self.set_Nivel(self.get_Nivel() + 1);
+			self.set_ExpParaSubirNivel() ## Falta por anyadir un evento externo "aumentarEstados"
+
+
+## Este metodo se anyadira a otra clase posterior llamada "Habilidades"
 
 	def habilidad_incrementarATK(self):
 		self.estadoATK = self.estadoATK + ((self.estadoATK * 50) / 100)
 
-# Metodo de prueba. Se anyadira a otra clase posterior llamada "Pasivas"
+
+## Metodo de prueba. Se anyadira a otra clase posterior llamada "Pasivas"
 
 	def habilidad_limite(self):
-		if (self.puntosVida < ((self.puntosVida * 20) / 100)):
-			self.estadoATK = self.estadoATK + 50
-			self.estadoDEF = self.estadoDEF + 70
-			self.estadoEVA = self.estadoEVA + 40
+		if (self.puntosVida < (self.puntosVida * 20) / 100):
+			self.set_EstadoATK(self.get_EstadoATK() + 50)
+			self.set_EstadoDEF(self.get_estadoDEF() + 70)
+			self.set_EstadoEVA(self.get_EstadoEVA() + 40)
 		else:
 			return "\nPero no ha funcionado...\n"
 
-# Debugging
+
+###############  Debugging  ###############
 
 Aldia = Actor()
 
@@ -94,6 +120,12 @@ Aldia.set_EstadoATK(20)
 Aldia.set_EstadoDEF(45)
 Aldia.set_EstadoEVA(30)
 
+Aldia.habilidad_incrementarATK()
+
+print("Ataque aumentado: {}\n").format(Aldia.get_EstadoATK())
+
+Aldia.anyadir_objetos(["Lagrima de cristal"])
+
 print("""	--- Personajes ---
 
 	Nombre: {}
@@ -104,13 +136,17 @@ print("""	--- Personajes ---
 
 	Vida: {}
 	Mana: {}
+	Experiencia: {}
 	Ataque: {}
 	Defensa: {}
 	Evasion: {}\n""").format(Aldia.get_Nombre(), Aldia.get_Nivel(), Aldia.get_Objetos(), Aldia.get_PuntosVida(),
-	 Aldia.get_PuntosMana(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoEVA())
+	 Aldia.get_PuntosMana(), Aldia.get_PuntosEXP(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoEVA())
 
-Aldia.habilidad_incrementarATK()
+Aldia.set_PuntosEXP(100)
 
-print("Ataque aumentado: {}").format(Aldia.get_EstadoATK())
-
-print(Aldia.habilidad_limite())
+Aldia.subir_Nivel()
+print("""	--- Subes de nivel ---
+	
+	Nivel: {}
+	Experiencia: {}
+	Experiencia necesaria para subir de nivel: {}\n""").format(Aldia.get_Nivel(), Aldia.get_PuntosEXP(), Aldia.expParaSubirNivel)
