@@ -1,19 +1,21 @@
 ## Funciones que haran interactuar a los personajes con el entorno
 
+
 	## Metodos funcionales
 
-def aumentarEstados():
-	nivel = Actor().get_Nivel()
-	puntosVida = Actor().get_PuntosVida()
-	puntosMana = Actor().get_PuntosMana()
-	estadoATK = Actor().get_EstadoATK()
-	estadoDEF = Actor().get_EstadoDEF()
-	estadoEVA = Actor().get_EstadoEVA()
-	expParaSubirNivel = (Actor().get_Nivel() * 100) + (Actor().get_PuntosVida() % Actor().get_Nivel())
+def aumentarEstados(self):
+
+	nivel = self.get_Nivel()
+	puntosVida = self.get_PuntosVida()
+	puntosMana = self.get_PuntosMana()
+	estadoATK = self.get_EstadoATK()
+	estadoDEF = self.get_EstadoDEF()
+	estadoEVA = self.get_EstadoEVA()
+	expParaSubirNivel = (self.get_Nivel() * 75) + self.get_ExpParaSubirNivel()
 			
-	Actor().set_PuntosVida(Actor().get_PuntosVida() + (nivel * (puntosVida / 100)))
-	Actor().set_PuntosMana(Actor().get_PuntosMana() + (nivel * (puntosMana / 100)))
-	Actor().set_EstadoATK(Actor().get_EstadoATK() + (nivel * (estadoATK / 100)))
-	Actor().set_EstadoDEF(Actor().get_EstadoDEF() + (nivel * (estadoDEF / 100)))
-	Actor().set_EstadoEVA(Actor().get_EstadoEVA() + (nivel * (estadoEVA / 100)))
-	Actor().set_ExpParaSubirNivel(expParaSubirNivel)
+	self.set_PuntosVida(self.get_PuntosVida() + (nivel * (puntosVida / 100)))
+	self.set_PuntosMana(self.get_PuntosMana() + (nivel * (puntosMana / 100)))
+	self.set_EstadoATK(self.get_EstadoATK() + (nivel * (estadoATK / 10)))
+	self.set_EstadoDEF(self.get_EstadoDEF() + (nivel * (estadoDEF / 10)))
+	self.set_EstadoEVA(self.get_EstadoEVA() + (nivel * (estadoEVA / 10)))
+	self.set_ExpParaSubirNivel(expParaSubirNivel)
