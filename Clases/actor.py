@@ -87,9 +87,9 @@ class Actor():
 		self._objetos = self._objetos + objeto
 
 	def subir_Nivel(self):
-		if (self._puntosEXP >= self._expParaSubirNivel):
+		while (self._puntosEXP >= self._expParaSubirNivel):
 			self.set_Nivel(self.get_Nivel() + 1)
-			## eventos.aumentarEstados()
+			eventos.aumentarEstados(self)
 		else:
 			return "No sube de nivel"
 	
@@ -135,19 +135,28 @@ print("""	--- Personajes ---
 	Evasion: {}\n""").format(Aldia.get_Nombre(), Aldia.get_Nivel(), Aldia.get_Objetos(), Aldia.get_PuntosVida(),
 	 Aldia.get_PuntosMana(), Aldia.get_PuntosEXP(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoEVA())
 
-Aldia.set_PuntosEXP(110)
+Aldia.set_PuntosEXP(100)
 
 Aldia.subir_Nivel()
 
 print("""	--- Subes de nivel ---
 	
 	Nivel: {}
+	Vida: {}
+	Mana: {}
+	Ataque: {}
+	Defensa: {}
+	Evasion: {}
 	Experiencia: {}
-	Experiencia necesaria para subir de nivel: {}\n""").format(Aldia.get_Nivel(), Aldia.get_PuntosEXP(), Aldia.get_ExpParaSubirNivel())
+	Experiencia necesaria para subir de nivel: {}\n""").format(Aldia.get_Nivel(), Aldia.get_PuntosVida(),
+	 Aldia.get_PuntosMana(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoEVA(), 
+	 Aldia.get_PuntosEXP(), Aldia.get_ExpParaSubirNivel())
 
 ataqueEnemigo = 370
 
 Aldia.set_PuntosVida(Aldia.get_PuntosVida() - ataqueEnemigo)
+
+print(Aldia.get_PuntosVida())
 
 print(Aldia.habilidad_limite())
 
