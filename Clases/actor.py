@@ -1,12 +1,14 @@
 ## Clase que crea objetos Actor() con los parametros y metodos necesarios
 
 import eventos
+import habilidades
 
 class Actor():
 
 	## Constructor
 
-	def __init__(self, nombre, nivel, objetos, puntosVida, puntosMana, puntosEXP, expParaSubirNivel, estadoATK, estadoDEF, estadoEVA):
+	def __init__(self, nombre, nivel, objetos, puntosVida, puntosMana, puntosEXP, expParaSubirNivel, estadoATK, estadoDEF,
+		estadoATM, estadoDEM, estadoEVA):
 		self._nombre = nombre
 		self._nivel = nivel
 		self._objetos = objetos
@@ -16,6 +18,8 @@ class Actor():
 		self._expParaSubirNivel = expParaSubirNivel
 		self._estadoATK = estadoATK
 		self._estadoDEF = estadoDEF
+		self._estadoATM = estadoATM
+		self._estadoDEM = estadoDEM
 		self._estadoEVA = estadoEVA
 
 	## Metodos get y set
@@ -74,6 +78,18 @@ class Actor():
 	def get_EstadoDEF(self):
 		return self._estadoDEF
 
+	def set_EstadoATM(self, estadoATM):
+		self._estadoATM = estadoATM
+
+	def get_EstadoATM(self):
+		return self._estadoATM
+
+	def set_EstadoDEM(self, estadoDEM):
+		self._estadoDEM = estadoDEM
+
+	def get_EstadoDEM(self):
+		return self._estadoDEM
+
 	def set_EstadoEVA(self, estadoEVA):
 		self._estadoEVA = estadoEVA
 
@@ -83,8 +99,8 @@ class Actor():
 
 	## Metodos funcionales
 
-	def anyadir_objetos(self, objeto):
-		self._objetos = self._objetos + objeto
+	def coger(self, objeto):
+		eventos.anyadir_objetos(self, objeto)
 
 	def subir_Nivel(self):
 		while (self._puntosEXP >= self._expParaSubirNivel):
@@ -93,10 +109,11 @@ class Actor():
 		else:
 			return "No sube de nivel"
 	
-	## Este metodo se anyadira a otra clase posterior llamada "Habilidades"
+	def hablar(self, texto):
+		print texto
 
-	def habilidad_incrementarATK(self):
-		self._estadoATK = self._estadoATK + ((self._estadoATK * 50) / 100)
+	def habilidad_Enfoque(self):
+		eventos.incrementarATK_Nivel1(self)
 
 	## Metodo de prueba. Se anyadira a otra clase posterior llamada "Pasivas"
 
@@ -106,18 +123,20 @@ class Actor():
 			self.set_EstadoDEF(self.get_EstadoDEF() + 70)
 			self.set_EstadoEVA(self.get_EstadoEVA() + 40)
 		else:
-			return "Pero no ha funcionado...\n"
+			print "Pero no ha funcionado...\n"
 
 
 ###############  Debugging  ###############
 
-Aldia = Actor("Aldia", 1, ["Arco etereo", "Espadas fatuas"], 450, 220, 0, 100, 25, 45, 30)
+Aldia = Actor("Aldia", 1, ["Arco etereo", "Espadas fatuas"], 450, 220, 0, 100, 25, 45, 20, 32, 30)
 
-Aldia.habilidad_incrementarATK()
+Engel = Actor("Engel", 1, ["Espada eterea, Boken nulo"], 500, 220, 0, 100, 34, 58, 25, 30, 46)
+
+Aldia.habilidad_Enfoque()
 
 print("Ataque aumentado: {}\n").format(Aldia.get_EstadoATK())
 
-Aldia.anyadir_objetos(["Lagrima de cristal"])
+Aldia.coger(["Pluma de fenix"])
 
 print("""	--- Personajes ---
 
@@ -132,8 +151,11 @@ print("""	--- Personajes ---
 	Experiencia: {}
 	Ataque: {}
 	Defensa: {}
+	Ataque magico: {}
+	Defensa magica: {}
 	Evasion: {}\n""").format(Aldia.get_Nombre(), Aldia.get_Nivel(), Aldia.get_Objetos(), Aldia.get_PuntosVida(),
-	 Aldia.get_PuntosMana(), Aldia.get_PuntosEXP(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoEVA())
+	 Aldia.get_PuntosMana(), Aldia.get_PuntosEXP(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoATM(),
+	 Aldia.get_EstadoDEM(), Aldia.get_EstadoEVA())
 
 Aldia.set_PuntosEXP(100)
 
@@ -146,11 +168,13 @@ print("""	--- Subes de nivel ---
 	Mana: {}
 	Ataque: {}
 	Defensa: {}
+	Ataque magico: {}
+	Defensa magica: {}
 	Evasion: {}
 	Experiencia: {}
 	Experiencia necesaria para subir de nivel: {}\n""").format(Aldia.get_Nivel(), Aldia.get_PuntosVida(),
-	 Aldia.get_PuntosMana(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoEVA(), 
-	 Aldia.get_PuntosEXP(), Aldia.get_ExpParaSubirNivel())
+	 Aldia.get_PuntosMana(), Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoATM(),
+	 Aldia.get_EstadoDEM(), Aldia.get_EstadoEVA(), Aldia.get_PuntosEXP(), Aldia.get_ExpParaSubirNivel())
 
 ataqueEnemigo = 370
 
@@ -165,3 +189,5 @@ print("""	--- Estados limite ---
 	Ataque: {}
 	Defensa: {}
 	Evasion: {}\n""").format(Aldia.get_EstadoATK(), Aldia.get_EstadoDEF(), Aldia.get_EstadoEVA())
+
+Aldia.hablar("	Hola de nuevo.\n")
